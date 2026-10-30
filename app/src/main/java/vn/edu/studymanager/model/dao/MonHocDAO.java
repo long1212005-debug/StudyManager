@@ -46,6 +46,17 @@ public class MonHocDAO {
         return list;
     }
 
+    public MonHoc getMonHocById(int id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM MonHoc WHERE id = ?", new String[]{String.valueOf(id)});
+        MonHoc mh = null;
+        if (cursor.moveToFirst()) {
+            mh = cursorToMonHoc(cursor);
+        }
+        cursor.close();
+        return mh;
+    }
+
     private MonHoc cursorToMonHoc(Cursor cursor) {
         Float diemTx3 = null;
         int tx3Index = cursor.getColumnIndex("diem_tx3");

@@ -36,7 +36,9 @@ public class CauHinhTrongSoDAO {
                     cursor.getFloat(5)  // trong_so_thi
             );
         }
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
         return cauHinh;
     }
 
@@ -74,5 +76,18 @@ public class CauHinhTrongSoDAO {
         values.put("trong_so_thi", cauHinh.getTrongSoThi());
 
         return db.insert("CauHinhTrongSo", null, values);
+    }
+
+    /**
+     * Lưu hoặc cập nhật cấu hình trọng số (tiện ích cho UI).
+     */
+    public boolean saveOrUpdateCauHinh(CauHinhTrongSo ch) {
+        CauHinhTrongSo current = getCauHinh();
+        if (current != null) {
+            ch.setId(current.getId());
+            return updateCauHinh(ch);
+        } else {
+            return insertCauHinh(ch) > 0;
+        }
     }
 }

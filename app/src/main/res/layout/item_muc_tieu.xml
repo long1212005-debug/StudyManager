@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="12dp">
+
+    <!-- Điểm chữ -->
+    <TextView
+        android:id="@+id/tvDiemChu"
+        android:layout_width="48dp"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:background="@color/primary" />
+
+    <!-- Thang điểm mục tiêu (Hệ 10 & Hệ 4) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="14dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMucTieu10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mục tiêu: >= 8.5"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMucTieu4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPA hệ 4: 4.0"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Điểm thi cần đạt và trạng thái -->
+    <TextView
+        android:id="@+id/tvKetQuaThi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cần thi >= 9.3"
+        android:textColor="@color/status_success"
+        android:textStyle="bold"
+        android:textSize="14sp" />
+
+</LinearLayout>

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">StudyManager</string>
+    <string name="title_tinh_diem_can_thi">Tính Điểm Cần Thi</string>
+    <string name="subtitle_tinh_diem_can_thi">Dự đoán điểm thi kết thúc học phần để đạt mục tiêu</string>
+    <string name="chon_mon_hoc">Chọn môn học</string>
+    <string name="tu_nhap_mon">-- Tự nhập môn học khác --</string>
+    <string name="ten_mon_hoc">Tên môn học</string>
+    <string name="diem_thanh_phan">Điểm thành phần (Hệ 10)</string>
+    <string name="diem_tx1">Điểm TX1</string>
+    <string name="diem_tx2">Điểm TX2</string>
+    <string name="diem_tx3">Điểm TX3</string>
+    <string name="co_diem_tx3">Môn học có 3 điểm thành phần</string>
+    <string name="trong_so_danh_gia">Cấu hình trọng số (%)</string>
+    <string name="trong_so_tx1">TS TX1</string>
+    <string name="trong_so_tx2">TS TX2</string>
+    <string name="trong_so_tx3">TS TX3</string>
+    <string name="trong_so_thi">TS Thi</string>
+    <string name="khoi_phuc_mac_dinh">Mặc định</string>
+    <string name="muc_tieu_hoc_tap">Mục tiêu điểm số mong muốn</string>
+    <string name="btn_tinh_diem">TÍNH ĐIỂM CẦN THI</string>
+    <string name="ket_qua_du_doan">Kết quả dự đoán</string>
+    <string name="diem_qua_trinh">Điểm quá trình:</string>
+    <string name="diem_thi_can_dat">ĐIỂM THI CẦN ĐẠT:</string>
+    <string name="diem_toi_da">Điểm tổng kết tối đa (khi thi 10):</string>
+    <string name="bang_tat_ca_muc_tieu">Bảng dự đoán toàn bộ thang điểm</string>
 </resources>

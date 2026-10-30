@@ -18,11 +18,11 @@ public class KyHocDAO {
         this.dbHelper = new DBHelper(context);
     }
 
-    // Lấy tất cả kỳ bao gồm cả kỳ ẩn (Dùng cho tính toán CPA tổng)
+    // Lấy tất cả kỳ
     public List<KyHoc> getAllKyHoc(int sinhVienId) {
         List<KyHoc> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM KyHoc WHERE sinh_vien_id = ? ORDER BY id DESC";
+        String query = "SELECT * FROM KyHoc WHERE sinh_vien_id = ? ORDER BY id ASC";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(sinhVienId)});
         if (cursor.moveToFirst()) {
             do {
@@ -34,12 +34,11 @@ public class KyHocDAO {
         return list;
     }
 
-    // Lấy danh sách kỳ để hiển thị lên màn hình (Ẩn kỳ kỹ thuật gom dữ liệu)
+    // Lấy danh sách kỳ hiển thị (bỏ kỳ kỹ thuật nếu có)
     public List<KyHoc> getDisplayKyHoc(int sinhVienId) {
         List<KyHoc> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        // SỬA LỖI: Chỉ loại bỏ đúng kỳ "Dữ liệu từ Website", cho phép hiện "Kỳ 1, Kỳ 2..."
-        String query = "SELECT * FROM KyHoc WHERE sinh_vien_id = ? AND ten_ky != 'Dữ liệu từ Website' ORDER BY id DESC";
+        String query = "SELECT * FROM KyHoc WHERE sinh_vien_id = ? AND ten_ky != 'Dữ liệu từ Website' ORDER BY id ASC";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(sinhVienId)});
         if (cursor.moveToFirst()) {
             do {
@@ -49,12 +48,6 @@ public class KyHocDAO {
         }
         cursor.close();
         return list;
-    }
-
-    // Xóa dữ liệu cũ trước khi cào mới
-    public void deleteDisplayKyHoc(int sinhVienId) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete("KyHoc", "sinh_vien_id = ? AND ten_ky LIKE 'Kỳ %'", new String[]{String.valueOf(sinhVienId)});
     }
 
     public long insertKyHoc(KyHoc kyHoc) {
@@ -93,5 +86,45 @@ public class KyHocDAO {
             return new KyHoc(cursor.getInt(0), cursor.getInt(1), cursor.getString(2),
                     cursor.getFloat(3), cursor.getInt(4), cursor.getInt(5) == 1);
         }
+    }
+
+    /**
+     * Tự động tính toán lại GPA của một kỳ học từ các môn học và lưu vào bảng KyHoc.
+     * Quy tắc: GPA kỳ = Tổng (điểm hệ 4 * số tín chỉ) / Tổng số tín chỉ có điểm.
+     */
+    public void updateGpaKyHoc(int kyHocId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // 1. Tính tổng điểm hệ 4 và tổng tín chỉ đã có điểm
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(diem_tong_ket_4 * so_tin_chi), SUM(so_tin_chi) FROM MonHoc " +
+                        "WHERE ky_hoc_id = ? AND diem_chu IS NOT NULL AND diem_chu != ''",
+                new String[]{String.valueOf(kyHocId)});
+
+        float tongDiem = 0.0f;
+        int tinChiCoDiem = 0;
+        if (cursor.moveToFirst() && cursor.getInt(1) > 0) {
+            tongDiem = cursor.getFloat(0);
+            tinChiCoDiem = cursor.getInt(1);
+        }
+        cursor.close();
+
+        float gpa = (tinChiCoDiem > 0) ? (float) (Math.round((tongDiem / tinChiCoDiem) * 100.0) / 100.0) : 0.0f;
+
+        // 2. Tính tổng tín chỉ đăng ký của toàn kỳ
+        Cursor cursorTotal = db.rawQuery(
+                "SELECT SUM(so_tin_chi) FROM MonHoc WHERE ky_hoc_id = ?",
+                new String[]{String.valueOf(kyHocId)});
+        int tongTinChiKy = 0;
+        if (cursorTotal.moveToFirst()) {
+            tongTinChiKy = cursorTotal.getInt(0);
+        }
+        cursorTotal.close();
+
+        // 3. Cập nhật lại vào bảng KyHoc
+        ContentValues values = new ContentValues();
+        values.put("gpa_ky", gpa);
+        values.put("tong_tin_chi_ky", tongTinChiKy);
+        db.update("KyHoc", values, "id = ?", new String[]{String.valueOf(kyHocId)});
     }
 }
