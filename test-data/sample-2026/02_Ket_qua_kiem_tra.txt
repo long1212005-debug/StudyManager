@@ -1,0 +1,13 @@
+KẾT QUẢ KIỂM TRA SQLITE ĐỘC LẬP
+1. SinhVien: 3 bản ghi: ĐẠT
+2. KyHoc: 5 bản ghi: ĐẠT
+3. MonHoc: 17 bản ghi: ĐẠT
+4. CauHinhTrongSo: 2 bản ghi: ĐẠT
+5. Không có khóa ngoại sai: ĐẠT
+6. Có môn thiếu điểm thi: ĐẠT
+7. Có sinh viên chưa có GPA: ĐẠT
+8. Chặn môn trùng cùng kỳ: ĐẠT
+9. Chặn môn tham chiếu kỳ không tồn tại: ĐẠT
+10. Chặn kỳ tham chiếu sinh viên không tồn tại: ĐẠT
+
+Lưu ý: chưa phải kết quả chạy trên Android Studio.

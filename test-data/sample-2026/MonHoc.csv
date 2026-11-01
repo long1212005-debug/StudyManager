@@ -1,0 +1,18 @@
+﻿id,ky_hoc_id,ten_mon,so_tin_chi,diem_tx1,diem_tx2,diem_tx3,diem_thi,diem_tong_ket_10,diem_tong_ket_4,diem_chu,trang_thai
+301,201,Lập trình Java,3,8,8.5,9,8,8.3,3.5,B+,Đã hoàn thành
+302,201,Cơ sở dữ liệu,3,7,7.5,8,7,7.3,3,B,Đã hoàn thành
+303,201,Cấu trúc dữ liệu,3,9,9,8,9,8.8,4,A,Đã hoàn thành
+304,201,Toán rời rạc,3,6,6.5,7,6,6.3,2.5,C+,Đã hoàn thành
+305,201,Tiếng Anh CNTT,3,7,8,8,7,7.4,3,B,Đã hoàn thành
+306,202,Lập trình Android,3,8,9,8,9,8.6,4,A,Đã hoàn thành
+307,202,Kiểm thử phần mềm,3,7,7,8,7.5,7.4,3,B,Đã hoàn thành
+308,202,Công nghệ phần mềm,3,8,8,8,8,8,3.5,B+,Đã hoàn thành
+309,202,Phân tích thiết kế hệ thống,3,6,7,7,6.5,6.6,2.5,C+,Đã hoàn thành
+310,202,Lập trình Web,3,8,7,8,8,7.8,3.5,B+,Đã hoàn thành
+311,203,Nhập môn lập trình,3,6,6,6,6,6,2.0,C,Đã hoàn thành
+312,203,Mạng máy tính,3,5,5.5,6,5,5.3,1.5,D+,Đã hoàn thành
+313,203,Hệ điều hành,3,7,7,7,7,7,3,B,Đã hoàn thành
+314,203,Đại số tuyến tính,3,8,8,8,8,8,3.5,B+,Đã hoàn thành
+315,204,Lập trình Python,3,8,,,,,,,Đang học
+316,204,Trí tuệ nhân tạo,3,,,,,,,,Chưa có điểm
+317,205,Nhập môn CNTT,3,,,,,,,,Chưa có điểm
