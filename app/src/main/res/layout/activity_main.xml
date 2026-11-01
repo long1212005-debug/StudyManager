@@ -1,19 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".controller.MainActivity">
 
+    <!-- Card thông tin dự án & thành viên -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="3dp"
+        app:strokeColor="#E0E0E0"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="StudyManager - HaUI"
+                android:textColor="#1976D2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Module: Quản lý &amp; Phân tích học tập"
+                android:textColor="#424242"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Thực hiện: Trần Văn Khoa (Tuần 3)"
+                android:textColor="#558B2F"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Khu vực chức năng kiểm thử Tuần 3 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="12dp"
+        android:text="CHỨC NĂNG THỬ NGHIỆM TUẦN 3"
+        android:textColor="#616161"
+        android:textSize="13sp"
+        android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Nút kích hoạt WebView Scraper -->
+    <Button
+        android:id="@+id/btnOpenWebView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:backgroundTint="#1976D2"
+        android:elevation="2dp"
+        android:text="🌐 Mở WebView &amp; Bóc tách bảng điểm"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp" />
+
+    <!-- Hướng dẫn nhanh cho người test/chấm điểm -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="4dp"
+        android:text="📌 Hướng dẫn kiểm thử:\n1. Bấm nút trên để mở cổng thông tin sv.haui.edu.vn.\n2. Đăng nhập tài khoản sinh viên của bạn.\n3. Vào mục 'Kết quả học tập'.\n4. Bấm nút bóc tách dữ liệu để kiểm tra JavaScript Bridge."
+        android:textColor="#757575"
+        android:textSize="13sp" />
+
+</LinearLayout>
