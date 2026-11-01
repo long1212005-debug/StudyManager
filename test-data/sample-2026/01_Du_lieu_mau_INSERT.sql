@@ -1,0 +1,31 @@
+﻿-- Du lieu mau StudyManager. Chay tren CSDL moi / CSDL test; khong chay tren du lieu that.
+-- ID 101+ de tranh trung voi ban ghi mac dinh cua DBHelper.
+BEGIN TRANSACTION;
+INSERT INTO SinhVien (id, ho_ten, mssv, cpa_hien_tai, tong_tin_chi_tich_luy, muc_tieu_cpa, truong_dao_tao) VALUES (101, 'Nguyễn Minh An', 'SVTEST001', 3.12, 42, 3.4, 'HaUI');
+INSERT INTO SinhVien (id, ho_ten, mssv, cpa_hien_tai, tong_tin_chi_tich_luy, muc_tieu_cpa, truong_dao_tao) VALUES (102, 'Trần Thu Bình', 'SVTEST002', 2.65, 36, 3.0, 'HaUI');
+INSERT INTO SinhVien (id, ho_ten, mssv, cpa_hien_tai, tong_tin_chi_tich_luy, muc_tieu_cpa, truong_dao_tao) VALUES (103, 'Lê Quốc Cường', 'SVTEST003', NULL, 0, 2.8, 'HaUI');
+INSERT INTO KyHoc (id, sinh_vien_id, ten_ky, gpa_ky, tong_tin_chi_ky, trang_thai) VALUES (201, 101, '2025-2026 HK1', 3.2, 15, 1);
+INSERT INTO KyHoc (id, sinh_vien_id, ten_ky, gpa_ky, tong_tin_chi_ky, trang_thai) VALUES (202, 101, '2025-2026 HK2', 3.0, 15, 1);
+INSERT INTO KyHoc (id, sinh_vien_id, ten_ky, gpa_ky, tong_tin_chi_ky, trang_thai) VALUES (203, 102, '2025-2026 HK1', 2.65, 12, 1);
+INSERT INTO KyHoc (id, sinh_vien_id, ten_ky, gpa_ky, tong_tin_chi_ky, trang_thai) VALUES (204, 102, '2025-2026 HK2', NULL, 0, 0);
+INSERT INTO KyHoc (id, sinh_vien_id, ten_ky, gpa_ky, tong_tin_chi_ky, trang_thai) VALUES (205, 103, '2025-2026 HK1', NULL, 0, 0);
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (301, 201, 'Lập trình Java', 3, 8, 8.5, 9, 8, 8.3, 3.5, 'B+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (302, 201, 'Cơ sở dữ liệu', 3, 7, 7.5, 8, 7, 7.3, 3, 'B', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (303, 201, 'Cấu trúc dữ liệu', 3, 9, 9, 8, 9, 8.8, 4, 'A', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (304, 201, 'Toán rời rạc', 3, 6, 6.5, 7, 6, 6.3, 2.5, 'C+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (305, 201, 'Tiếng Anh CNTT', 3, 7, 8, 8, 7, 7.4, 3, 'B', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (306, 202, 'Lập trình Android', 3, 8, 9, 8, 9, 8.6, 4, 'A', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (307, 202, 'Kiểm thử phần mềm', 3, 7, 7, 8, 7.5, 7.4, 3, 'B', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (308, 202, 'Công nghệ phần mềm', 3, 8, 8, 8, 8, 8, 3.5, 'B+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (309, 202, 'Phân tích thiết kế hệ thống', 3, 6, 7, 7, 6.5, 6.6, 2.5, 'C+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (310, 202, 'Lập trình Web', 3, 8, 7, 8, 8, 7.8, 3.5, 'B+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (311, 203, 'Nhập môn lập trình', 3, 6, 6, 6, 6, 6, 2.0, 'C', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (312, 203, 'Mạng máy tính', 3, 5, 5.5, 6, 5, 5.3, 1.5, 'D+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (313, 203, 'Hệ điều hành', 3, 7, 7, 7, 7, 7, 3, 'B', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (314, 203, 'Đại số tuyến tính', 3, 8, 8, 8, 8, 8, 3.5, 'B+', 'Đã hoàn thành');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (315, 204, 'Lập trình Python', 3, 8, NULL, NULL, NULL, NULL, NULL, NULL, 'Đang học');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (316, 204, 'Trí tuệ nhân tạo', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Chưa có điểm');
+INSERT INTO MonHoc (id, ky_hoc_id, ten_mon, so_tin_chi, diem_tx1, diem_tx2, diem_tx3, diem_thi, diem_tong_ket_10, diem_tong_ket_4, diem_chu, trang_thai) VALUES (317, 205, 'Nhập môn CNTT', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Chưa có điểm');
+INSERT INTO CauHinhTrongSo (id, ten_he_dao_tao, trong_so_tx1, trong_so_tx2, trong_so_tx3, trong_so_thi) VALUES (401, 'Chính quy - ví dụ 20/20/20/40', 0.2, 0.2, 0.2, 0.4);
+INSERT INTO CauHinhTrongSo (id, ten_he_dao_tao, trong_so_tx1, trong_so_tx2, trong_so_tx3, trong_so_thi) VALUES (402, 'Ví dụ 10/20/20/50', 0.1, 0.2, 0.2, 0.5);
+COMMIT;

@@ -1,0 +1,8 @@
+HƯỚNG DẪN
+1. Xem 4 file CSV để kiểm tra dữ liệu mẫu.
+2. Để thử SQLite độc lập: tạo CSDL bằng 00_Tao_CSDL_test.sql, sau đó chạy 01_Du_lieu_mau_INSERT.sql. Hoặc mở StudyManager_TEST.db bằng DB Browser for SQLite.
+3. Để thử trong Android Studio, KHÔNG chạy file CREATE TABLE trên DB đã được DBHelper tạo. Chỉ nhập 01_Du_lieu_mau_INSERT.sql vào gpa.db test, hoặc thêm cơ chế import riêng.
+4. Trước khi import: sao lưu gpa.db, đảm bảo ID 101-402 chưa tồn tại. Script INSERT không idempotent; chạy lần hai có thể báo trùng ID.
+5. DBHelper hiện đã có seed mặc định 1 sinh viên và 1 cấu hình, nên số bản ghi trên Android sẽ khác DB test độc lập.
+6. Điểm/GPA/CPA trong dữ liệu là số giả lập phục vụ kiểm thử, KHÔNG coi là kết quả tính toán chính thức theo quy chế HaUI.
+7. Khi chụp minh chứng, cần phân biệt kết quả SQLite độc lập và kiểm thử trên ứng dụng Android.
