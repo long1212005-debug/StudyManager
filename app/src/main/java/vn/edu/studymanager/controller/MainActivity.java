@@ -2,7 +2,11 @@ package vn.edu.studymanager.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,47 +16,132 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import vn.edu.studymanager.R;
+import vn.edu.studymanager.adapters.KyHocAdapter;
+import vn.edu.studymanager.model.dao.KyHocDAO;
+import vn.edu.studymanager.model.dao.MonHocDAO;
+import vn.edu.studymanager.model.dao.SinhVienDAO;
+import vn.edu.studymanager.model.entity.KyHoc;
+
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnOpenWebView;
+    private ListView lvKyHoc;
+    private TextView tvEmpty, tvCpaHienTai, tvTongTinChiTichLuy, tvSoKyHoc;
+    private KyHocAdapter adapter;
+    private List<KyHoc> listDisplayKyHoc;
+    private SinhVienDAO sinhVienDAO;
+    private KyHocDAO kyHocDAO;
+    private MonHocDAO monHocDAO;
+    private ImageButton btnReSyncData; // Nút làm mới dữ liệu
+    private LinearLayout btnTrangChu, btnThongKe, btnCongCu, btnCaiDat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        //Khởi tạo ánh xạ View
         initViews();
-
-        //Đăng ký các sự kiện tương tác
-        setupEvents();
+        initData();
+        setupClickListeners();
     }
 
-    /**
-     * Ánh xạ các thành phần từ XML vào Java
-     */
     private void initViews() {
-        btnOpenWebView = findViewById(R.id.btnOpenWebView);
+        lvKyHoc = findViewById(R.id.lvKyHoc);
+        tvEmpty = findViewById(R.id.tvEmpty);
+        tvCpaHienTai = findViewById(R.id.tvCpaHienTai);
+        tvTongTinChiTichLuy = findViewById(R.id.tvTongTinChiTichLuy);
+        tvSoKyHoc = findViewById(R.id.tvSoKyHoc);
+        btnReSyncData = findViewById(R.id.btnReSyncData);
+
+        btnTrangChu = findViewById(R.id.btnTrangChu);
+        btnThongKe = findViewById(R.id.btnThongKe);
+        btnCongCu = findViewById(R.id.btnCongCu);
+        btnCaiDat = findViewById(R.id.btnCaiDat);
     }
 
-    /**
-     * Cài đặt sự kiện click cho các nút
-     */
-    private void setupEvents() {
-        btnOpenWebView.setOnClickListener(v -> {
-            // Thông báo ngắn để xác nhận click
-            Toast.makeText(this, "Đang khởi tạo WebView HaUI...", Toast.LENGTH_SHORT).show();
+    private void initData() {
+        kyHocDAO = new KyHocDAO(this);
+        sinhVienDAO = new SinhVienDAO(this);
+        monHocDAO = new MonHocDAO(this);
+        refreshDisplay();
+    }
 
-            // Khởi tạo Intent chuyển hướng từ MainActivity sang LayDuLieuWebViewActivity
+    private void refreshDisplay() {
+        int svId = 1;
+        List<KyHoc> allKyHoc = kyHocDAO.getAllKyHoc(svId);
+
+        int tongTinChi = 0;
+        float tongDiemTichLuy = 0;
+
+        for (KyHoc kh : allKyHoc) {
+            if (kh.getTongTinChiKy() > 0) {
+                tongTinChi += kh.getTongTinChiKy();
+                tongDiemTichLuy += (kh.getGpaKy() * kh.getTongTinChiKy());
+            }
+        }
+
+        float cpa = (tongTinChi > 0) ? (tongDiemTichLuy / tongTinChi) : 0;
+
+        tvCpaHienTai.setText(String.format(Locale.getDefault(), "%.2f", cpa));
+        tvTongTinChiTichLuy.setText(String.valueOf(tongTinChi));
+
+        listDisplayKyHoc = kyHocDAO.getDisplayKyHoc(svId);
+        tvSoKyHoc.setText(listDisplayKyHoc.size() + " kỳ");
+
+        adapter = new KyHocAdapter(this, listDisplayKyHoc);
+        lvKyHoc.setAdapter(adapter);
+
+        if (listDisplayKyHoc.isEmpty()) {
+            lvKyHoc.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            lvKyHoc.setVisibility(View.VISIBLE);
+            tvEmpty.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupClickListeners() {
+        // Chuyển sang màn hình Chi tiết kỳ học khi chọn một kỳ
+        lvKyHoc.setOnItemClickListener((parent, view, position, id) -> {
+            KyHoc kyHoc = listDisplayKyHoc.get(position);
+            Intent intent = new Intent(MainActivity.this, ChiTietKyHocActivity.class);
+            intent.putExtra("kyHoc", kyHoc);
+            startActivity(intent);
+        });
+
+        // Nút cào dữ liệu từ Web (Khảo sát WebView Scraper)
+        btnReSyncData.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LayDuLieuWebViewActivity.class);
             startActivity(intent);
         });
+
+        btnTrangChu.setOnClickListener(v -> refreshDisplay());
+
+        btnThongKe.setOnClickListener(v -> {
+            Toast.makeText(this, "Chức năng Thống kê (Tuần 4)", Toast.LENGTH_SHORT).show();
+        });
+
+        btnCongCu.setOnClickListener(v -> {
+            Toast.makeText(this, "Chức năng Công cụ tính điểm (Tuần 4)", Toast.LENGTH_SHORT).show();
+        });
+
+        btnCaiDat.setOnClickListener(v -> {
+            Toast.makeText(this, "Chức năng Cài đặt / Thông tin nhóm", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshDisplay();
     }
 }

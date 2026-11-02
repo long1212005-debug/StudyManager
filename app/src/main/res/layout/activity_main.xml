@@ -1,90 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
-    android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".controller.MainActivity">
+    android:background="#F5F5F5">
 
-    <!-- Card thông tin dự án & thành viên -->
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="3dp"
-        app:strokeColor="#E0E0E0"
-        app:strokeWidth="1dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/nav_view_container">
 
+        <!-- Header: Chứa tiêu đề và nút làm mới dữ liệu từ Web -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2196F3"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/ll_sync_container">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TRANG CHỦ"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng quan kết quả học tập"
+                    android:textSize="13sp"
+                    android:textColor="#E3F2FD"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sync_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Làm mới"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnReSyncData"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_rotate"
+                    android:contentDescription="Lấy lại dữ liệu từ Web"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Khung thống kê CPA và Tín chỉ tích lũy -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:elevation="4dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="StudyManager - HaUI"
-                android:textColor="#1976D2"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="Module: Quản lý &amp; Phân tích học tập"
-                android:textColor="#424242"
-                android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CPA HIỆN TẠI"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvCpaHienTai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/ 4.00"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#E0E0E0"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Thực hiện: Trần Văn Khoa (Tuần 3)"
-                android:textColor="#558B2F"
-                android:textStyle="italic" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TỔNG TÍN CHỈ"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvTongTinChiTichLuy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#2196F3"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="tín chỉ đã hoàn thành"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Khu vực chức năng kiểm thử Tuần 3 -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="12dp"
-        android:text="CHỨC NĂNG THỬ NGHIỆM TUẦN 3"
-        android:textColor="#616161"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        <!-- Tiêu đề danh sách kỳ học -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#FAFAFA"
+            android:padding="12dp"
+            android:gravity="center_vertical">
 
-    <!-- Nút kích hoạt WebView Scraper -->
-    <Button
-        android:id="@+id/btnOpenWebView"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DANH SÁCH CÁC KỲ HỌC"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#333333"/>
+
+            <TextView
+                android:id="@+id/tvSoKyHoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 kỳ"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:background="@drawable/bg_so_ky_hoc"
+                android:padding="6dp"/>
+        </LinearLayout>
+
+        <!-- Danh sách kỳ học dạng ListView -->
+        <ListView
+            android:id="@+id/lvKyHoc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="#E0E0E0"
+            android:dividerHeight="1dp"
+            android:background="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Chưa có kỳ học nào. Hãy nhấn 'Làm mới' để đồng bộ từ Web!"
+            android:textSize="16sp"
+            android:textColor="#999999"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/nav_view_container"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:backgroundTint="#1976D2"
-        android:elevation="2dp"
-        android:text="🌐 Mở WebView &amp; Bóc tách bảng điểm"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:cornerRadius="10dp" />
-
-    <!-- Hướng dẫn nhanh cho người test/chấm điểm -->
-    <TextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:lineSpacingExtra="4dp"
-        android:text="📌 Hướng dẫn kiểm thử:\n1. Bấm nút trên để mở cổng thông tin sv.haui.edu.vn.\n2. Đăng nhập tài khoản sinh viên của bạn.\n3. Vào mục 'Kết quả học tập'.\n4. Bấm nút bóc tách dữ liệu để kiểm tra JavaScript Bridge."
-        android:textColor="#757575"
-        android:textSize="13sp" />
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/layout_bottom_nav" />
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

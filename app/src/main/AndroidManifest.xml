@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,22 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyManager"
         android:usesCleartextTraffic="true">
-        <!-- 1. Activity phụ trợ: LayDuLieuWebViewActivity -->
-        <activity
-            android:name=".controller.LayDuLieuWebViewActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <!-- 2. Activity chính (Launcher): MainActivity -->
+
+        <!-- Màn hình chính (Dashboard) -->
         <activity
             android:name=".controller.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <!-- Đánh dấu đây là màn hình đầu tiên khi mở app -->
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Màn hình Chi tiết kỳ học -->
+        <activity
+            android:name=".controller.ChiTietKyHocActivity"
+            android:exported="false" />
+
+        <!-- Màn hình cào dữ liệu qua WebView -->
+        <activity
+            android:name=".controller.LayDuLieuWebViewActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
