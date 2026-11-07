@@ -339,6 +339,8 @@ public class ChiTietKyHocActivity extends AppCompatActivity implements MonHocAda
     @Override
     public void onCalculateExamClick(MonHoc monHoc) {
         Intent intent = new Intent(this, TinhDiemCanThiActivity.class);
+        intent.putExtra("EXTRA_KY_HOC_ID", kyHocId);
+        intent.putExtra("EXTRA_MON_HOC_ID", monHoc.getId());
         startActivity(intent);
     }
 
@@ -349,11 +351,7 @@ public class ChiTietKyHocActivity extends AppCompatActivity implements MonHocAda
                 .setTitle("Xác nhận xóa môn học")
                 .setMessage(String.format("Bạn có chắc chắn muốn xóa môn '%s' khỏi kỳ này không?\n\nĐiểm GPA và CPA tích lũy sẽ được tính toán lại.", monHoc.getTenMon()))
                 .setPositiveButton("Xóa", (dialog, which) -> {
-                    monHocDAO.deleteMonHocByKyHocId(monHoc.getId()); // Note: or delete by mon hoc id
-                    // Xóa môn học bằng id
-                    android.database.sqlite.SQLiteDatabase db = new vn.edu.studymanager.model.database.DBHelper(this).getWritableDatabase();
-                    db.delete("MonHoc", "id = ?", new String[]{String.valueOf(monHoc.getId())});
-
+                    monHocDAO.deleteMonHoc(monHoc.getId());
                     kyHocDAO.updateGpaKyHoc(kyHocId);
                     monHocDAO.syncGlobalStats();
                     Toast.makeText(this, "Đã xóa môn học!", Toast.LENGTH_SHORT).show();

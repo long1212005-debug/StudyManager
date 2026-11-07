@@ -91,6 +91,11 @@ public class MonHocDAO {
         return db.update("MonHoc", values, "id = ?", new String[]{String.valueOf(mh.getId())}) > 0;
     }
 
+    public boolean deleteMonHoc(int id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        return db.delete("MonHoc", "id = ?", new String[]{String.valueOf(id)}) > 0;
+    }
+
     public boolean deleteMonHocByKyHocId(int kyHocId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete("MonHoc", "ky_hoc_id = ?", new String[]{String.valueOf(kyHocId)}) > 0;
@@ -116,34 +121,43 @@ public class MonHocDAO {
     /**
      * Đồng bộ CPA và Tín chỉ tích lũy theo quy tắc:
      * - Nếu có nhiều lần học (trùng tên môn), chỉ lấy điểm hệ 4 CAO NHẤT.
-     * - Môn điểm F (0.0) chưa học lại sẽ tính là 0.
+     * - Môn điểm F (0.0) chưa học lại sẽ tính là 0 (vẫn tính vào mẫu số chia CPA, nhưng không tính vào tín chỉ tích lũy).
      */
     public void syncGlobalStats() {
+        syncGlobalStats(1);
+    }
+
+    public void syncGlobalStats(int sinhVienId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        
-        // Truy vấn con: Nhóm theo tên môn và lấy MAX điểm hệ 4
-        String subQuery = "SELECT ten_mon, MAX(diem_tong_ket_4) as max_diem4, MAX(so_tin_chi) as tin_chi " +
-                          "FROM MonHoc " +
-                          "WHERE diem_chu IS NOT NULL AND diem_chu != '' " +
-                          "GROUP BY ten_mon";
-                       
-        Cursor cursor = db.rawQuery("SELECT SUM(max_diem4 * tin_chi), SUM(tin_chi) FROM (" + subQuery + ")", null);
-        
+
+        // Truy vấn con: Nhóm theo tên môn và lấy MAX điểm hệ 4 thuộc các kỳ của sinh viên này
+        String subQuery = "SELECT mh.ten_mon, MAX(mh.diem_tong_ket_4) as max_diem4, MAX(mh.so_tin_chi) as tin_chi " +
+                          "FROM MonHoc mh " +
+                          "INNER JOIN KyHoc kh ON mh.ky_hoc_id = kh.id " +
+                          "WHERE kh.sinh_vien_id = " + sinhVienId + " AND mh.diem_chu IS NOT NULL AND mh.diem_chu != '' " +
+                          "GROUP BY mh.ten_mon";
+
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(max_diem4 * tin_chi), SUM(tin_chi), SUM(CASE WHEN max_diem4 > 0 THEN tin_chi ELSE 0 END) FROM (" + subQuery + ")",
+                null);
+
         float tongDiemTichLuy = 0;
-        int tongTinChi = 0;
-        
+        int tongTinChiChiaCpa = 0;
+        int tongTinChiTichLuy = 0;
+
         if (cursor.moveToFirst() && cursor.getInt(1) > 0) {
             tongDiemTichLuy = cursor.getFloat(0);
-            tongTinChi = cursor.getInt(1);
+            tongTinChiChiaCpa = cursor.getInt(1);
+            tongTinChiTichLuy = cursor.getInt(2);
         }
         cursor.close();
 
-        float cpa = tongTinChi > 0 ? tongDiemTichLuy / tongTinChi : 0;
+        float cpa = tongTinChiChiaCpa > 0 ? (float) (Math.round((tongDiemTichLuy / tongTinChiChiaCpa) * 100.0) / 100.0) : 0;
 
         ContentValues values = new ContentValues();
         values.put("cpa_hien_tai", cpa);
-        values.put("tong_tin_chi_tich_luy", tongTinChi);
-        
-        db.update("SinhVien", values, "id = 1", null);
+        values.put("tong_tin_chi_tich_luy", tongTinChiTichLuy);
+
+        db.update("SinhVien", values, "id = ?", new String[]{String.valueOf(sinhVienId)});
     }
 }

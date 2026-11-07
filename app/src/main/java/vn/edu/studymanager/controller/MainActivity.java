@@ -116,15 +116,22 @@ public class MainActivity extends AppCompatActivity implements KyHocAdapter.OnKy
     }
 
     private void loadDashboardData() {
-        // Đồng bộ CPA từ các môn học
-        monHocDAO.syncGlobalStats();
-
         // 1. Tải thông tin sinh viên
         currentSinhVien = sinhVienDAO.getSinhVien();
         if (currentSinhVien == null) {
             currentSinhVien = new SinhVien(1, "Sinh viên HaUI", "2023604407", 0.0f, 0, 3.20f, "Đại học Công nghiệp Hà Nội");
             sinhVienDAO.insertSinhVien(currentSinhVien);
         }
+
+        // Tự động tính lại GPA cho tất cả kỳ học và đồng bộ CPA toàn khóa
+        List<KyHoc> allKy = kyHocDAO.getAllKyHoc(currentSinhVien.getId());
+        if (allKy != null) {
+            for (KyHoc kh : allKy) {
+                kyHocDAO.updateGpaKyHoc(kh.getId());
+            }
+        }
+        monHocDAO.syncGlobalStats(currentSinhVien.getId());
+        currentSinhVien = sinhVienDAO.getSinhVien();
 
         tvTenSinhVien.setText(currentSinhVien.getHoTen());
         tvMssvVaTruong.setText("MSSV: " + currentSinhVien.getMssv() + " • " + currentSinhVien.getTruongDaoTao());

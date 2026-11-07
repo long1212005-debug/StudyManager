@@ -103,6 +103,31 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
         setupTrongSoRealtimeValidation();
         setupMucTieuSpinner();
         setupActionListeners();
+        handleIncomingIntent();
+    }
+
+    private void handleIncomingIntent() {
+        int targetKyHocId = getIntent().getIntExtra("EXTRA_KY_HOC_ID", -1);
+        int targetMonHocId = getIntent().getIntExtra("EXTRA_MON_HOC_ID", -1);
+
+        if (targetKyHocId != -1 && danhSachKyHoc != null) {
+            for (int i = 0; i < danhSachKyHoc.size(); i++) {
+                if (danhSachKyHoc.get(i).getId() == targetKyHocId) {
+                    spnKyHoc.setSelection(i + 1);
+                    capNhatDanhSachMonHocTheoKy(i + 1);
+                    break;
+                }
+            }
+        }
+
+        if (targetMonHocId != -1 && danhSachMonHoc != null) {
+            for (int j = 0; j < danhSachMonHoc.size(); j++) {
+                if (danhSachMonHoc.get(j).getId() == targetMonHocId) {
+                    spnMonHoc.setSelection(j + 1);
+                    break;
+                }
+            }
+        }
     }
 
     private void initViews() {
@@ -706,6 +731,7 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
 
                 boolean updated = monHocDAO.updateMonHoc(currentSelectedMonHoc);
                 if (updated) {
+                    kyHocDAO.updateGpaKyHoc(currentSelectedMonHoc.getKyHocId());
                     monHocDAO.syncGlobalStats(); // Đồng bộ CPA
                     Toast.makeText(this, String.format("Đã cập nhật điểm môn '%s' thành công!\nĐiểm TK10: %.2f | Điểm chữ: %s",
                             tenMon, tk10, diemChu), Toast.LENGTH_LONG).show();
@@ -725,6 +751,7 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
                 MonHoc newMh = new MonHoc(0, kyId, tenMon, 3, tx1, tx2, tx3, diemThi, tk10, tk4, diemChu, trangThai);
                 long newId = monHocDAO.insertMonHoc(newMh);
                 if (newId > 0) {
+                    kyHocDAO.updateGpaKyHoc(kyId);
                     monHocDAO.syncGlobalStats();
                     Toast.makeText(this, String.format("Đã thêm mới môn '%s' vào CSDL thành công!\nĐiểm TK10: %.2f | Điểm chữ: %s",
                             tenMon, tk10, diemChu), Toast.LENGTH_LONG).show();
