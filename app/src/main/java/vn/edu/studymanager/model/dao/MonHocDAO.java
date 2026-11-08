@@ -107,32 +107,53 @@ public class MonHocDAO {
      * - Nếu có nhiều lần học (trùng tên môn), chỉ lấy điểm hệ 4 CAO NHẤT.
      * - Môn điểm F (0.0) chưa học lại sẽ tính là 0.
      */
+    /**
+     * Backward compatibility for the application's default student (id = 1).
+     * For a different student, call syncGlobalStats(sinhVienId).
+     */
     public void syncGlobalStats() {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        
-        // Truy vấn con: Nhóm theo tên môn và lấy MAX điểm hệ 4
-        String subQuery = "SELECT ten_mon, MAX(diem_tong_ket_4) as max_diem4, MAX(so_tin_chi) as tin_chi " +
-                          "FROM MonHoc " +
-                          "WHERE diem_chu IS NOT NULL AND diem_chu != '' " +
-                          "GROUP BY ten_mon";
-                       
-        Cursor cursor = db.rawQuery("SELECT SUM(max_diem4 * tin_chi), SUM(tin_chi) FROM (" + subQuery + ")", null);
-        
-        float tongDiemTichLuy = 0;
-        int tongTinChi = 0;
-        
-        if (cursor.moveToFirst() && cursor.getInt(1) > 0) {
-            tongDiemTichLuy = cursor.getFloat(0);
-            tongTinChi = cursor.getInt(1);
+        syncGlobalStats(1);
+    }
+
+    /**
+     * Calculate CPA for one student only. For repeated course names, use the
+     * highest grade-4 attempt; failing courses count toward the CPA divisor
+     * but are not counted as earned credits.
+     * NOTE: Grouping by name follows the pre-existing rule. A course code
+     * should replace names as the stable identifier in a future migration.
+     */
+    public void syncGlobalStats(int sinhVienId) {
+        if (sinhVienId <= 0) {
+            throw new IllegalArgumentException("sinhVienId phai lon hon 0");
         }
-        cursor.close();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String query = "SELECT COALESCE(SUM(best_score * credits), 0), " +
+                "COALESCE(SUM(credits), 0), " +
+                "COALESCE(SUM(CASE WHEN best_score > 0 THEN credits ELSE 0 END), 0) " +
+                "FROM (SELECT LOWER(TRIM(m.ten_mon)) AS subject_key, " +
+                "MAX(m.diem_tong_ket_4) AS best_score, " +
+                "MAX(m.so_tin_chi) AS credits " +
+                "FROM MonHoc m JOIN KyHoc k ON k.id = m.ky_hoc_id " +
+                "WHERE k.sinh_vien_id = ? " +
+                "AND m.diem_chu IS NOT NULL AND TRIM(m.diem_chu) != '' " +
+                "AND m.diem_tong_ket_4 BETWEEN 0 AND 4 " +
+                "AND m.so_tin_chi > 0 " +
+                "GROUP BY LOWER(TRIM(m.ten_mon)))";
 
-        float cpa = tongTinChi > 0 ? tongDiemTichLuy / tongTinChi : 0;
-
+        double totalWeighted = 0;
+        int attemptedCredits = 0;
+        int earnedCredits = 0;
+        try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(sinhVienId)})) {
+            if (cursor.moveToFirst()) {
+                totalWeighted = cursor.getDouble(0);
+                attemptedCredits = cursor.getInt(1);
+                earnedCredits = cursor.getInt(2);
+            }
+        }
+        double cpa = attemptedCredits > 0 ? totalWeighted / attemptedCredits : 0;
         ContentValues values = new ContentValues();
         values.put("cpa_hien_tai", cpa);
-        values.put("tong_tin_chi_tich_luy", tongTinChi);
-        
-        db.update("SinhVien", values, "id = 1", null);
+        values.put("tong_tin_chi_tich_luy", earnedCredits);
+        db.update("SinhVien", values, "id = ?", new String[]{String.valueOf(sinhVienId)});
     }
 }
