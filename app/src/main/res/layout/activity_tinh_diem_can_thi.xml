@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F5F6FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CÔNG CỤ TÍNH ĐIỂM CẦN THI"
+            android:textStyle="bold"
+            android:textSize="21sp"
+            android:textColor="#212121"
+            android:paddingBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvTrongSo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đang đọc cấu hình..."
+            android:textColor="#424242"
+            android:textSize="14sp"
+            android:paddingBottom="16dp" />
+
+        <EditText
+            android:id="@+id/edtTx1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Điểm TX1 (0–10)"
+            android:inputType="numberDecimal|numberSigned"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/edtTx2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Điểm TX2 (0–10)"
+            android:inputType="numberDecimal|numberSigned"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/edtTx3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Điểm TX3 (để trống nếu không có trọng số)"
+            android:inputType="numberDecimal|numberSigned"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/edtMucTieu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Điểm tổng kết mục tiêu (0–10)"
+            android:inputType="numberDecimal|numberSigned"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/btnTinhDiem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TÍNH ĐIỂM THI CẦN ĐẠT"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvKetQua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="12dp"
+            android:text="Nhập điểm thành phần và mục tiêu để tính."
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="Lưu ý: đây là phép tính theo trọng số cấu hình, không tự kết luận điều kiện qua môn hoặc quy tắc làm tròn điểm của nhà trường."
+            android:textColor="#616161"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnQuayLai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="QUAY LẠI" />
+    </LinearLayout>
+</ScrollView>

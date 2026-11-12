@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnCongCu.setOnClickListener(v -> {
-            Toast.makeText(this, "Chức năng Công cụ tính điểm (Tuần 4)", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, TinhDiemCanThiActivity.class);
+            startActivity(intent);
         });
 
         btnCaiDat.setOnClickListener(v -> {
