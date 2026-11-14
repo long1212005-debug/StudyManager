@@ -37,6 +37,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Week 5: cong cu tinh diem can thi -->
+        <activity
+            android:name=".controller.TinhDiemCanThiActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
