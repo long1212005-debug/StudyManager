@@ -21,6 +21,7 @@ import vn.edu.studymanager.model.dao.KyHocDAO;
 import vn.edu.studymanager.model.dao.MonHocDAO;
 import vn.edu.studymanager.model.dao.SinhVienDAO;
 import vn.edu.studymanager.model.entity.KyHoc;
+import vn.edu.studymanager.model.entity.SinhVien;
 
 import java.util.List;
 import java.util.Locale;
@@ -110,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        // Chuyển sang màn hình Chi tiết kỳ học khi chọn một kỳ
         lvKyHoc.setOnItemClickListener((parent, view, position, id) -> {
             KyHoc kyHoc = listDisplayKyHoc.get(position);
             Intent intent = new Intent(MainActivity.this, ChiTietKyHocActivity.class);
@@ -118,25 +118,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Nút cào dữ liệu từ Web (Khảo sát WebView Scraper)
         btnReSyncData.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LayDuLieuWebViewActivity.class);
             startActivity(intent);
         });
 
         btnTrangChu.setOnClickListener(v -> refreshDisplay());
-
-        btnThongKe.setOnClickListener(v -> {
-            Toast.makeText(this, "Chức năng Thống kê (Tuần 4)", Toast.LENGTH_SHORT).show();
-        });
-
-        btnCongCu.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, TinhDiemCanThiActivity.class);
-            startActivity(intent);
-        });
+        btnThongKe.setOnClickListener(v -> startActivity(new Intent(this, ThongKe.class)));
+        btnCongCu.setOnClickListener(v -> startActivity(new Intent(this, CongCuActivity.class)));
 
         btnCaiDat.setOnClickListener(v -> {
-            Toast.makeText(this, "Chức năng Cài đặt / Thông tin nhóm", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, CaiDatActivity.class);
+            startActivity(intent);
         });
     }
 

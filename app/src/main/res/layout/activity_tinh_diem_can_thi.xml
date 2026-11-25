@@ -1,95 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F5F6FA">
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:background="#2196F3"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:contentDescription="Quay lại" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CÔNG CỤ TÍNH ĐIỂM CẦN THI"
-            android:textStyle="bold"
-            android:textSize="21sp"
-            android:textColor="#212121"
-            android:paddingBottom="16dp" />
+            android:layout_centerInParent="true"
+            android:text="TÍNH ĐIỂM CẦN THI"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvTrongSo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đang đọc cấu hình..."
-            android:textColor="#424242"
-            android:textSize="14sp"
-            android:paddingBottom="16dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edtTx1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Điểm TX1 (0–10)"
-            android:inputType="numberDecimal|numberSigned"
-            android:singleLine="true" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/edtTx2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Điểm TX2 (0–10)"
-            android:inputType="numberDecimal|numberSigned"
-            android:singleLine="true" />
+            <!-- Chọn môn học -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chọn môn học"
+                    android:textSize="14sp"
+                    android:textColor="#212121"
+                    android:textStyle="bold"/>
+                <Button
+                    android:id="@+id/btnSyncDiemTP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Lấy điểm từ Web"
+                    android:textSize="11sp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:paddingHorizontal="8dp"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/edtTx3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Điểm TX3 (để trống nếu không có trọng số)"
-            android:inputType="numberDecimal|numberSigned"
-            android:singleLine="true" />
+            <Spinner
+                android:id="@+id/spnMonHoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:theme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <EditText
-            android:id="@+id/edtMucTieu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Điểm tổng kết mục tiêu (0–10)"
-            android:inputType="numberDecimal|numberSigned"
-            android:singleLine="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chọn hệ số trọng số (TX1-TX2-TX3-Thi)"
+                android:textSize="14sp"
+                android:textColor="#212121"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
 
-        <Button
-            android:id="@+id/btnTinhDiem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TÍNH ĐIỂM THI CẦN ĐẠT"
-            android:layout_marginTop="20dp" />
+            <Spinner
+                android:id="@+id/spnTrongSo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:id="@+id/tvKetQua"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_marginTop="12dp"
-            android:text="Nhập điểm thành phần và mục tiêu để tính."
-            android:textColor="#212121"
-            android:textSize="16sp" />
+            <!-- Điểm thành phần -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm thường xuyên 1"
+                android:textSize="14sp"
+                android:textColor="#212121"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/edtTx1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Nhập điểm TX1"
+                android:inputType="numberDecimal"
+                android:background="@android:drawable/editbox_background"
+                android:paddingStart="12dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:text="Lưu ý: đây là phép tính theo trọng số cấu hình, không tự kết luận điều kiện qua môn hoặc quy tắc làm tròn điểm của nhà trường."
-            android:textColor="#616161"
-            android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm thường xuyên 2"
+                android:textSize="14sp"
+                android:textColor="#212121"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/edtTx2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Nhập điểm TX2"
+                android:inputType="numberDecimal"
+                android:background="@android:drawable/editbox_background"
+                android:paddingStart="12dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp"/>
 
-        <Button
-            android:id="@+id/btnQuayLai"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="QUAY LẠI" />
-    </LinearLayout>
-</ScrollView>
+            <!-- Điểm TX3 -->
+            <LinearLayout
+                android:id="@+id/layoutTx3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Điểm thường xuyên 3"
+                    android:textSize="14sp"
+                    android:textColor="#212121"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+                <EditText
+                    android:id="@+id/edtTx3"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Nhập điểm TX3"
+                    android:inputType="numberDecimal"
+                    android:background="@android:drawable/editbox_background"
+                    android:paddingStart="12dp"
+                    android:textColor="#000000"
+                    android:layout_marginBottom="16dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mục tiêu điểm chữ"
+                android:textSize="14sp"
+                android:textColor="#212121"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <Spinner
+                android:id="@+id/spnMucTieu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_marginBottom="24dp"/>
+
+            <Button
+                android:id="@+id/btnTinhToan"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="TÍNH TOÁN"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:id="@+id/layoutKetQua"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#E8F5E9"
+                android:padding="16dp"
+                android:layout_marginTop="24dp"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/tvKetQua"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="---"
+                    android:textSize="18sp"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
