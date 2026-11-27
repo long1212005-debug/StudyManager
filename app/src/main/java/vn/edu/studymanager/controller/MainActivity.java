@@ -78,22 +78,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshDisplay() {
         int svId = 1;
-        List<KyHoc> allKyHoc = kyHocDAO.getAllKyHoc(svId);
+        monHocDAO.syncGlobalStats(svId);
+        SinhVien sv = sinhVienDAO.getSinhVienById(svId);
 
-        int tongTinChi = 0;
-        float tongDiemTichLuy = 0;
+        if (sv != null && sv.getTongTinChiTichLuy() > 0) {
+            tvCpaHienTai.setText(String.format(Locale.getDefault(), "%.2f", sv.getCpaHienTai()));
+            tvTongTinChiTichLuy.setText(String.valueOf(sv.getTongTinChiTichLuy()));
+        } else {
+            List<KyHoc> allKyHoc = kyHocDAO.getAllKyHoc(svId);
+            int tongTinChi = 0;
+            float tongDiemTichLuy = 0;
 
-        for (KyHoc kh : allKyHoc) {
-            if (kh.getTongTinChiKy() > 0) {
-                tongTinChi += kh.getTongTinChiKy();
-                tongDiemTichLuy += (kh.getGpaKy() * kh.getTongTinChiKy());
+            for (KyHoc kh : allKyHoc) {
+                if (kh.getTongTinChiKy() > 0) {
+                    tongTinChi += kh.getTongTinChiKy();
+                    tongDiemTichLuy += (kh.getGpaKy() * kh.getTongTinChiKy());
+                }
             }
+
+            float cpa = (tongTinChi > 0) ? (tongDiemTichLuy / tongTinChi) : 0;
+            tvCpaHienTai.setText(String.format(Locale.getDefault(), "%.2f", cpa));
+            tvTongTinChiTichLuy.setText(String.valueOf(tongTinChi));
         }
-
-        float cpa = (tongTinChi > 0) ? (tongDiemTichLuy / tongTinChi) : 0;
-
-        tvCpaHienTai.setText(String.format(Locale.getDefault(), "%.2f", cpa));
-        tvTongTinChiTichLuy.setText(String.valueOf(tongTinChi));
 
         listDisplayKyHoc = kyHocDAO.getDisplayKyHoc(svId);
         tvSoKyHoc.setText(listDisplayKyHoc.size() + " kỳ");
@@ -126,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         btnTrangChu.setOnClickListener(v -> refreshDisplay());
         btnThongKe.setOnClickListener(v -> startActivity(new Intent(this, ThongKe.class)));
         btnCongCu.setOnClickListener(v -> startActivity(new Intent(this, CongCuActivity.class)));
+        btnCongCu.setOnLongClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, TinhDiemCanThiActivity.class));
+            return true;
+        });
 
         btnCaiDat.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CaiDatActivity.class);

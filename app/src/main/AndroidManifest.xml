@@ -70,6 +70,11 @@
             android:name=".controller.CaiDatActivity"
             android:exported="false" />
 
+        <!-- Màn hình Mô phỏng GPA giả định -->
+        <activity
+            android:name=".controller.MoPhongGPAActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

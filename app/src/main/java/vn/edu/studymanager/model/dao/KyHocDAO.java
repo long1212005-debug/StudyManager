@@ -51,9 +51,11 @@ public class KyHocDAO {
         return list;
     }
 
-    // Xóa dữ liệu cũ trước khi cào mới
+    // Xóa dữ liệu cũ trước khi cào mới (Xóa MonHoc con trước để tránh lỗi Khóa ngoại)
     public void deleteDisplayKyHoc(int sinhVienId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String subQuery = "SELECT id FROM KyHoc WHERE sinh_vien_id = ? AND ten_ky LIKE 'Kỳ %'";
+        db.delete("MonHoc", "ky_hoc_id IN (" + subQuery + ")", new String[]{String.valueOf(sinhVienId)});
         db.delete("KyHoc", "sinh_vien_id = ? AND ten_ky LIKE 'Kỳ %'", new String[]{String.valueOf(sinhVienId)});
     }
 

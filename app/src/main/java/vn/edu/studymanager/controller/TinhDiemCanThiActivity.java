@@ -16,7 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import vn.edu.studymanager.R;
+import vn.edu.studymanager.model.calculator.DiemThiCalculator;
+import vn.edu.studymanager.model.dao.CauHinhTrongSoDAO;
 import vn.edu.studymanager.model.dao.MonHocDAO;
+import vn.edu.studymanager.model.entity.CauHinhTrongSo;
 import vn.edu.studymanager.model.entity.MonHoc;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
     private ImageButton btnBack;
 
     private MonHocDAO monHocDAO;
+    private CauHinhTrongSoDAO cauHinhTrongSoDAO;
     private List<MonHoc> monHocCanThiList;
     private Map<String, Float> mucTieuMap;
     private List<float[]> trongSoValues;
@@ -56,7 +60,7 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
         edtTx2 = findViewById(R.id.edtTx2);
         edtTx3 = findViewById(R.id.edtTx3);
         layoutTx3 = findViewById(R.id.layoutTx3);
-        btnTinhToan = findViewById(R.id.btnTinhToan);
+        btnTinhToan = findViewById(R.id.btnTinhDiem);
         btnSyncDiemTP = findViewById(R.id.btnSyncDiemTP);
         layoutKetQua = findViewById(R.id.layoutKetQua);
         tvKetQua = findViewById(R.id.tvKetQua);
@@ -65,6 +69,7 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
 
     private void initData() {
         monHocDAO = new MonHocDAO(this);
+        cauHinhTrongSoDAO = new CauHinhTrongSoDAO(this);
         refreshMonHocSpinner();
 
         // Setup Trọng số
@@ -164,10 +169,25 @@ public class TinhDiemCanThiActivity extends AppCompatActivity {
             float tx3 = (ts[2] > 0) ? parseScore(edtTx3.getText().toString()) : 0;
 
             float mucTieu = mucTieuMap.get(spnMucTieu.getSelectedItem().toString());
-            float diemTP = (tx1 * ts[0]) + (tx2 * ts[1]) + (tx3 * ts[2]);
-            float diemCanThi = (mucTieu - diemTP) / ts[3];
+            
+            // Đọc cấu hình trọng số nếu có từ CSDL SQLite
+            CauHinhTrongSo dbConfig = cauHinhTrongSoDAO.getCauHinh();
+            if (dbConfig != null && spnTrongSo.getSelectedItemPosition() == 0) {
+                // Ưu tiên cấu hình CSDL nếu dùng hệ mặc định
+                ts = new float[]{
+                        dbConfig.getTrongSoTx1(),
+                        dbConfig.getTrongSoTx2(),
+                        dbConfig.getTrongSoTx3(),
+                        dbConfig.getTrongSoThi()
+                };
+            }
 
-            hienThiKetQua(diemCanThi);
+            double diemCanThi = DiemThiCalculator.tinhDiemThiCanDat(
+                    tx1, tx2, (ts[2] > 0 ? (double) tx3 : null), mucTieu,
+                    ts[0], ts[1], ts[2], ts[3]
+            );
+
+            hienThiKetQua((float) diemCanThi);
         } catch (Exception e) {
             Toast.makeText(this, "Vui lòng nhập điểm hợp lệ (0-10)", Toast.LENGTH_SHORT).show();
         }

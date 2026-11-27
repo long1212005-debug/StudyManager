@@ -178,8 +178,15 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Light"
                 android:layout_marginBottom="24dp"/>
 
+            <EditText
+                android:id="@+id/edtMucTieu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:hint="Mục tiêu GPA"/>
+
             <Button
-                android:id="@+id/btnTinhToan"
+                android:id="@+id/btnTinhDiem"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="TÍNH TOÁN"
