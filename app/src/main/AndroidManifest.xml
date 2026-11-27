@@ -15,10 +15,11 @@
         android:theme="@style/Theme.StudyManager"
         android:usesCleartextTraffic="true">
 
-        <!-- Màn hình chính (Dashboard) -->
+        <!-- Màn hình cào dữ liệu qua WebView (Đăng nhập HaUI) -->
         <activity
-            android:name=".controller.MainActivity"
+            android:name=".controller.LayDuLieuWebViewActivity"
             android:exported="true"
+            android:label="Đăng nhập HaUI"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,21 +27,49 @@
             </intent-filter>
         </activity>
 
+        <!-- Màn hình chính (Dashboard) -->
+        <activity
+            android:name=".controller.MainActivity"
+            android:exported="true"
+            android:label="Trang chủ"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Màn hình lấy điểm thành phần TX1, TX2, TX3 -->
+        <activity
+            android:name=".controller.LayDiemTPWebViewActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Màn hình Thống kê biểu đồ MPAndroidChart -->
+        <activity
+            android:name=".controller.ThongKe"
+            android:exported="false" />
+
+        <!-- Màn hình Lộ trình học tập & Tư vấn cải thiện điểm -->
+        <activity
+            android:name=".controller.LoTrinhHocTapActivity"
+            android:exported="false" />
+
         <!-- Màn hình Chi tiết kỳ học -->
         <activity
             android:name=".controller.ChiTietKyHocActivity"
             android:exported="false" />
 
-        <!-- Màn hình cào dữ liệu qua WebView -->
+        <!-- Màn hình menu Công cụ & Tiện ích -->
         <activity
-            android:name=".controller.LayDuLieuWebViewActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".controller.CongCuActivity"
+            android:exported="false" />
 
-        <!-- Week 5: cong cu tinh diem can thi -->
+        <!-- Màn hình Mô phỏng tính điểm cần thi -->
         <activity
             android:name=".controller.TinhDiemCanThiActivity"
             android:exported="false" />
+
+        <!-- Màn hình Cài đặt & Liên hệ -->
+        <activity
+            android:name=".controller.CaiDatActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
